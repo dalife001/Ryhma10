@@ -2,23 +2,30 @@ import random
 print(" Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
 print(" Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
 arvonta = [50,55,60,65,70,75,80,85,90,95,100]
-pisteet= random.choices(arvonta)
-print("Tarvitset voittoon", pisteet, "pistemäärän.")
+pisteitä= random.choices(arvonta)
+print("Tarvitset voittoon", pisteitä, "pistemäärän.")
 lentokenttä= input("Anna lentokentän nimi: ")
 #if lentokenttä in sql:
 print("Siirrytään lentokentälle")
 print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
 
 
-
 def onko_aaveita(aaveet):
-    aaveet = random.randint(1, 2)
+    return aaveet
+aaveet = random.randint(1, 2)
+pisteet = 15
+while pisteet <= pisteitä:
     if aaveet == 1:
         print("Löysit aaveen ja saat 10 pistettä.")
+        pisteet += 10
     if aaveet == 2:
-        print("Et löytänyt aavetta.")
+        print("Et löytänyt aavetta ja menetät viisi pistettä.")
+        pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
-    return aaveet
+    if aaveet == pisteet:
+        print("Peli päättyi")
+    if pisteet == 0:
+        print("Peli päättyi")
 
 
 
