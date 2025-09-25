@@ -22,7 +22,7 @@ while pisteet <= pisteitä:
         print("Et löytänyt aavetta ja menetät viisi pistettä.")
         pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
-    if aaveet == pisteet:
+    if pisteet == pisteitä:
         print("Peli päättyi")
     if pisteet == 0:
         print("Peli päättyi")
