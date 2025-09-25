@@ -43,4 +43,4 @@ if kys == "kyllä":
             pelaaja_pisteet = tiedon_haku()
 
         elif kysymys_arvo == "ei":
-            print()
+            #funktio tähän
