@@ -15,6 +15,12 @@ def tiedon_haku(arvo):
     tulos = kursori.fetchall()
     return tulos
 
+def lisaa_kayttaja(arvo):
+    sql = f"insert into users(player) values '{arvo}'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return
 
 
 

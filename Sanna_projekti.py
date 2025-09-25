@@ -14,7 +14,7 @@ def onko_aaveita(aaveet):
     return aaveet
 aaveet = random.randint(1, 2)
 pisteet = 15
-while pisteet != pisteitä:
+while True:
     if aaveet == 1:
         print("Löysit aaveen ja saat 10 pistettä.")
         print("Pisteet ovat siis", pisteet + 10)
@@ -24,11 +24,17 @@ while pisteet != pisteitä:
         print("Pisteet ovat siis", pisteet - 5)
         pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
+    # if lentokenttä in sql:
+    print("Siirrytään lentokentälle")
+    print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
     aaveet = random.randint(1, 2)
-if pisteet == pisteitä:
-    print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
-if pisteet == 0:
-    print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+    if pisteet == pisteitä:
+        print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
+        break
+    if pisteet == 0:
+        print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+        break
+
 
 
 
