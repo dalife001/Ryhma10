@@ -9,3 +9,11 @@ def hae_kayttaja(arvo):
 
 
 
+yhteys = mysql.connector.connect(
+         host='localhost',
+         port= 3306,
+         database='flight_game',
+         user='foot',
+         password='2004',
+         autocommit=True
+         )
