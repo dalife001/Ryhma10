@@ -14,18 +14,19 @@ def onko_aaveita(aaveet):
     return aaveet
 aaveet = random.randint(1, 2)
 pisteet = 15
-while pisteet <= pisteitä:
+while pisteet != pisteitä:
     if aaveet == 1:
         print("Löysit aaveen ja saat 10 pistettä.")
+        print("Pisteet ovat siis", pisteet + 10)
         pisteet += 10
     if aaveet == 2:
         print("Et löytänyt aavetta ja menetät viisi pistettä.")
+        print("Pisteet ovat siis", pisteet - 5)
         pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
-    if pisteet == pisteitä:
+    if pisteet == pisteitä or pisteet == 0:
         print("Peli päättyi")
-    if pisteet == 0:
-        print("Peli päättyi")
+
 
 
 
