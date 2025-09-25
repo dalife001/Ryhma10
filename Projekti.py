@@ -14,6 +14,12 @@ def tiedon_haku(arvo):
     tulos = kursori.fetchall()
     return tulos
 
+def lisaa_kayttaja(arvo):
+    sql = f"insert into users(player) values '{arvo}'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return
 
 
 
@@ -46,5 +52,5 @@ if kys == "kyllä":
             #funktio tähän
 
 elif kys == "ei":
-    uusi_kayttja = input("Anna nimi: ")
-    #funktio tähän
+    uusi_kayttaja = input("Anna nimi: ")
+    kayttaja_uusi = lisaa_kayttaja(uusi_kayttaja)
