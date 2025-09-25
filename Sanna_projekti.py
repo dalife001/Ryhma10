@@ -24,6 +24,7 @@ while pisteet != pisteitä:
         print("Pisteet ovat siis", pisteet - 5)
         pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
+    # if lentokenttä in sql:
     print("Siirrytään lentokentälle")
     print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
     aaveet = random.randint(1, 2)
