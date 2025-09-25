@@ -14,7 +14,7 @@ def onko_aaveita(aaveet):
     return aaveet
 aaveet = random.randint(1, 2)
 pisteet = 15
-while pisteet != pisteitä:
+while True:
     if aaveet == 1:
         print("Löysit aaveen ja saat 10 pistettä.")
         print("Pisteet ovat siis", pisteet + 10)
