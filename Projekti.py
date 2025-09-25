@@ -44,3 +44,7 @@ if kys == "kyllä":
 
         elif kysymys_arvo == "ei":
             #funktio tähän
+
+elif kys == "ei":
+    uusi_kayttja = input("Anna nimi: ")
+    #funktio tähän
