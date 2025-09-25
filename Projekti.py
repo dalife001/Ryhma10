@@ -7,6 +7,14 @@ def hae_kayttaja(arvo):
     tulos = kursori.fetchall()
     return tulos
 
+def tiedon_haku(arvo):
+    sql = f"select points from user where player = '{arvo}'"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+
+
 
 
 
@@ -19,18 +27,20 @@ yhteys = mysql.connector.connect(
          autocommit=True
          )
 
-pelaaja_nimi = hae_kayttaja()
+kys = input("Onko sinulla käyttäjä: kyllä/ei")
+if kys == "kyllä":
+    kayttaja = input("Anna käyttäjä: ")
+    pelaaja_nimi = hae_kayttaja(kayttaja)
 
-if pelaaja_nimi == "null":
-    print("Käyttäjää ei löydy.")
-    #funktio tähän
+    if pelaaja_nimi == "null":
+        print("Käyttäjää ei löydy.")
+        # funktio tähän
 
-else:
-    kysymys_arvo = str(input("Haluatko jatkaa peliä: kyllä/ei"))
+    else:
+        kysymys_arvo = str(input("Haluatko jatkaa peliä: kyllä/ei"))
 
-    if kysymys_arvo == "kyllä":
-        pelaaja_pisteet = tiedon_haku()
+        if kysymys_arvo == "kyllä":
+            pelaaja_pisteet = tiedon_haku()
 
-    elif kysymys_arvo == "ei":
-
-        # funktio kutsu tähän
+        elif kysymys_arvo == "ei":
+            print()
