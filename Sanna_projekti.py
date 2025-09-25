@@ -25,8 +25,10 @@ while pisteet != pisteitä:
         pisteet -= 5
     lentokenttä = input("Anna lentokentän nimi: ")
     aaveet = random.randint(1, 2)
-if pisteet == pisteitä or pisteet == 0:
-    print("Peli päättyi")
+if pisteet == pisteitä:
+    print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
+if pisteet == 0:
+    print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
 
 
 
