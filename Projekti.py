@@ -9,4 +9,3 @@ def hae_kayttaja(arvo):
 
 
 
-
