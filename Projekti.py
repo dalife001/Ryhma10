@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 def hae_kayttaja(arvo):
     sql = f"select player from user where player = '{arvo}' "
     kursori = yhteys.cursor()
@@ -25,10 +26,10 @@ def lisaa_kayttaja(arvo):
 
 
 yhteys = mysql.connector.connect(
-         host='localhost',
+         host='127.0.0.1',
          port= 3306,
-         database='flight_game',
-         user='foot',
+         database='player',
+         user='root',
          password='2004',
          autocommit=True
          )
@@ -50,7 +51,13 @@ if kys == "kyllä":
 
         elif kysymys_arvo == "ei":
             #funktio tähän
+            print("Uusi peli alkaa")
 
-elif kys == "ei":
-    uusi_kayttaja = input("Anna nimi: ")
-    kayttaja_uusi = lisaa_kayttaja(uusi_kayttaja)
+def maat():
+    sql = f"SELECT * FROM airport ORDER BY RAND() LIMIT 5"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
+print(maat())
+
