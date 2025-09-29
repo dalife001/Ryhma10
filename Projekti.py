@@ -22,6 +22,12 @@ def lisaa_kayttaja(arvo):
     tulos = kursori.fetchall()
     return
 
+def maat():
+    sql = f"SELECT * FROM airport ORDER BY RAND() LIMIT 5"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    return tulos
 
 
 
