@@ -1,5 +1,5 @@
 import mysql.connector
-
+temp = []
 
 def hae_kayttaja(arvo):
     sql = f"select player from user where player = '{arvo}' "
@@ -54,10 +54,16 @@ if kys == "kyllä":
             print("Uusi peli alkaa")
 
 def maat():
-    sql = f"SELECT * FROM airport ORDER BY RAND() LIMIT 5"
+ 
+    sql = f"SELECT name  FROM airport ORDER BY RAND() LIMIT 5"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    return tulos
-print(maat())
+    for name in tulos: 
+        temp.append(name[0]) 
 
+    for counter , value in enumerate(temp, start=1):
+        print(counter, value)
+        # now updating the list to save the number and the name
+    
+maat()
