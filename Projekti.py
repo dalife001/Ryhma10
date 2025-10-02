@@ -2,6 +2,20 @@ import mysql.connector
 import random
 lista = []
 
+
+def create_kayttaja():
+    Username = input(" Anna käyttäjänimesi: ")
+    if len(Username) < 3:
+        print("Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä.")
+    infomation = input("Lisää tietosi: ")
+    if len(infomation) < 5:
+        print("Tietojen tulee olla vähintään 10 merkkiä pitkä.")
+    sql = f"INSERT INTO player (Name,points,Guessed, info) VALUES ('{Username }','{15}','{0}','{infomation}')"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    print("Käyttäjä luotu onnistuneesti")
+    return Username
+
 def hae_kayttaja(arvo):
     sql = f"select player from user where player = '{arvo}' "
     kursori = yhteys.cursor()
@@ -52,10 +66,9 @@ if kys == "kyllä":
 
         elif kysymys_arvo == "ei":
             #funktio tähän
-
-elif kys == "ei":
-    uusi_kayttaja = input("Anna nimi: ")
-    kayttaja_uusi = lisaa_kayttaja(uusi_kayttaja)
+else:
+        kys == "ei"
+        usercreateer()
 
 pisteet = 15
 arvonta = [50,55,60,65,70,75,80,85,90,95,100]
@@ -99,7 +112,16 @@ def maat():
 
     for counter , value in enumerate(lista, start=1):
         print(counter, value)
-        # now updating the list to save the number and the name
+def arvonta():
     
-maat()
+    real = random.choice(lista)
+    gues=  input("Arvaa lentokenttä: ") 
+    if gues == real:
+         print("Oikein arvattu")
+    else:
+            print("Väärin arvattu")
+            print(f"Oikea vastaus oli {real}")
+    
+    return real
 
+    
