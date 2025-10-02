@@ -46,7 +46,7 @@ def tiedon_haku(arvo):
 yhteys = mysql.connector.connect(
          host='localhost',
          port= 3306,
-         database='flight_game',
+         database='player',
          user='root',
          password='2004',
          autocommit=True
@@ -63,7 +63,8 @@ def maat():
 
     for counter , value in enumerate(lista):
         print()
-maat() 
+maat()
+
 def  kysy():
      ksy = input("Onko sinulla käyttäjä: kyllä/ei")
      if ksy == "kyllä":
@@ -93,7 +94,6 @@ def  kysy():
 pisteet = 15
 arvonta = [50,55,60,65,70,75,80,85,90,95,100]
 pisteita = random.choice(arvonta)
-print(lista)
 print(" Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
 print(" Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
 print("Tarvitset voittoon", pisteita, "pistemäärän.")
@@ -102,7 +102,9 @@ while True:
     print("Siirrytään lentokentälle")
     print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
     oikea_vastaus = random.choice(lista)
-
+    print(oikea_vastaus)
+    lista.clear()
+    maat()
     if lentokentta == oikea_vastaus:
         print("Löysit aaveen ja saat 10 pistettä.")
         pisteet+=10
