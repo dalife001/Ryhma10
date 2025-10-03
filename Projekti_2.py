@@ -97,11 +97,11 @@ def kysy():
 
 
 
-def peli(pelaaja,pisteet=0):
-
+def peli(pelaaja,pistet):
+    pisteet = 0
     arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     pisteita = random.choice(arvonta)
-
+    pisteet += pistet
     print(
         " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
     print(
