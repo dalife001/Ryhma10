@@ -110,10 +110,11 @@ def peli(pelaaja,pistet):
     kentat= maat()
 
     while True:
-        lentokentta = input(f"Valitse lentokenttä: 1.{kentat[0]},2.{kentat[1]},3.{kentat[2]},4.{kentat[3]}5.{kentat[4]} ")
+        lentokentta = int(input(f"Valitse lentokenttä: 1.{kentat[0]},2.{kentat[1]},3.{kentat[2]},4.{kentat[3]}5.{kentat[4]} "))
         print("Siirrytään lentokentälle")
         print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-        oikea_vastaus = random.choice(kentat)
+        oikea_vastaus = random.randint(1,5)
+        palkinto = random.randint(1,5)
         kentat.clear()
         kentat= maat()
         if lentokentta == oikea_vastaus:
@@ -124,8 +125,13 @@ def peli(pelaaja,pistet):
                 print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
                 #Nimen ja pisteiden tallennus
                 break
-            else:
-                continue
+            elif oikea_vastaus == palkinto:
+                print("Löysit palkinnon saat 5 pistettä")
+                pisteet += 5
+                print(f"Pisteet ovat nyt {pisteet}")
+            elif pisteet == (pisteita - 5):
+                print("Melkein perillä")
+
         elif lentokentta != oikea_vastaus:
             print("Et löytänyt aavetta ja menetät viisi pistettä.")
             pisteet -= 5
