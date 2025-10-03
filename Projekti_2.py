@@ -37,7 +37,7 @@ def tiedon_haku(arvo):
 yhteys = mysql.connector.connect(
     host='localhost',
     port=3306,
-    database='peli',
+    database='flight_game',
     user='root',
     password='2004',
     autocommit=True
