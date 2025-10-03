@@ -126,11 +126,11 @@ def peli(pelaaja,pistet):
                 #Nimen ja pisteiden tallennus
                 break
             elif oikea_vastaus == palkinto:
-                print("Löysit palkinnon saat 5 pistettä")
+                print("Löysit palkinnon saat 5 pistettä.")
                 pisteet += 5
                 print(f"Pisteet ovat nyt {pisteet}")
             elif pisteet == (pisteita - 5):
-                print("Melkein perillä")
+                print("Melkein perillä.")
 
         elif lentokentta != oikea_vastaus:
             print("Et löytänyt aavetta ja menetät viisi pistettä.")
