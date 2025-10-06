@@ -12,7 +12,6 @@ yhteys = mysql.connector.connect(
     autocommit=True
 )
 
-
 # --- Funktiot ---
 
 def luo_kayttaja():
@@ -78,7 +77,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
 
             if lentokentat[valinta - 1] == oikea_vastaus:
-                pisteet += 20
+                pisteet += 10
                 print(f"Löysit aaveen! Pisteesi: {pisteet}\n")
                 lentokentat = nayta_lentokentat()
                 oikea_vastaus = random.choice(lentokentat)
@@ -120,11 +119,9 @@ def main():
                 print("Käyttäjää ei löydy. Luodaan uusi.")
                 nimi = luo_kayttaja()
                 flag = False
-                
         elif kys == "ei":
             nimi = luo_kayttaja()
             flag = False
-
         else:
             print("Syötä joko kyllä tai ei!")
 
