@@ -1,17 +1,14 @@
 import mysql.connector
 import random
-from termcolor import colored
-from colorama import init
 
-init(convert=True)
 
 # --- Yhteys tietokantaan ---
 yhteys = mysql.connector.connect(
     host='localhost',
     port=3306,
-    database='mkp_db',
-    user='teemu',
-    password='root',
+    database='player',
+    user='root',
+    password='P@ssword',
     autocommit=True
 )
 
@@ -64,7 +61,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     tavoite = random.choice(piste_arvonta)
     print(tavoite)
 
-    print(f"\nHei {colored(pelaaja, 'blue')}, sinulla on pisteitä: {colored(str(pisteet), 'blue')}, peli alkaa!")
+    print(f"\nHei {pelaaja}, sinulla on pisteitä: {pisteet}, peli alkaa!")
     print("Tavoitteesi on saavuttaa", tavoite, "pistettä.")
     print("Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.\n")
 
