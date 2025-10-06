@@ -1,9 +1,12 @@
 import mysql.connector
 import random
 lista = []
-
-
+from other import aarin_avaus_kysymys
+from other import aarin_vastaus
+aarin_vastaus()
+aarin_avaus_kysymys()
 def main():
+    
     kysy()
     hae_kayttaja()
     tiedon_haku()
@@ -90,7 +93,7 @@ def  kysy():
             ksy == "ei"
             create_kayttaja()
 
-
+print(lista)
 pisteet = 15
 arvonta = [50,55,60,65,70,75,80,85,90,95,100]
 pisteita = random.choice(arvonta)
@@ -101,7 +104,7 @@ while True:
     lentokentta = input(f"Valitse lentokenttä: 1.{lista[0]},2.{lista[1]},3.{lista[2]},4.{lista[3]}5.{lista[4]} ")
     print("Siirrytään lentokentälle")
     print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-    oikea_vastaus = random.choice(lista)
+    oikea_vastaus = random.choice(range(len(lista))) 
     print(oikea_vastaus)
     lista.clear()
     maat()
