@@ -1,127 +1,151 @@
 import mysql.connector
 import random
-lista = []
 
 
-def create_kayttaja():
-    Username = input(" Anna käyttäjänimesi: ")
-    if len(Username) < 3:
-        print("Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä.")
-    infomation = input("Lisää tietosi: ")
-    if len(infomation) < 5:
-        print("Tietojen tulee olla vähintään 10 merkkiä pitkä.")
-    sql = f"INSERT INTO player (Name,points,Guessed, info) VALUES ('{Username }','{15}','{0}','{infomation}')"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    print("Käyttäjä luotu onnistuneesti")
-    return Username
-
-def hae_kayttaja(arvo):
-    sql = f"select player from user where player = '{arvo}' "
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos
-
-def tiedon_haku(arvo):
-    sql = f"select points from user where player = '{arvo}'"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return tulos
-
-def lisaa_kayttaja(arvo):
-    sql = f"insert into users(player) values '{arvo}'"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    return
-
-
-
-
+# --- Yhteys tietokantaan ---
 yhteys = mysql.connector.connect(
-         host='localhost',
-         port= 3306,
-         database='flight_game',
-         user='foot',
-         password='2004',
-         autocommit=True
-         )
+    host='localhost',
+    port=3306,
+    database='player',
+    user='root',
+    password='P@ssword',
+    autocommit=True
+)
 
-kys = input("Onko sinulla käyttäjä: kyllä/ei")
-if kys == "kyllä":
-    kayttaja = input("Anna käyttäjä: ")
-    pelaaja_nimi = hae_kayttaja(kayttaja)
+# --- Funktiot ---
 
-    if pelaaja_nimi == "null":
-        print("Käyttäjää ei löydy.")
-        # funktio tähän
+def palkinto(arvo):
+    pistet=0
+    palkinto = random.randint(1,5)
+    if palkinto == arvo:
+        print("Löysit aarteen saat 5 pistettä!")
+        pistet +=5
+    return pistet
 
-    else:
-        kysymys_arvo = str(input("Haluatko jatkaa peliä: kyllä/ei"))
+def luo_kayttaja():
+    while True:
+        nimi = input("Anna käyttäjänimesi (vähintään 3 merkkiä): ")
+        if len(nimi) < 3:
+            print("Liian lyhyt nimi.")
+            continue
+        info = input("Lisää tietosi (vähintään 10 merkkiä): ")
+        if len(info) < 10:
+            print("Liian lyhyt tieto.")
+            continue
+        break
 
-        if kysymys_arvo == "kyllä":
-            pelaaja_pisteet = tiedon_haku()
+    sql = "INSERT INTO player (Name, points, Guessed, info) VALUES (%s, %s, %s, %s)"
+    kursori = yhteys.cursor()
+    kursori.execute(sql, (nimi, 15, 0, info))
+    print(f"Käyttäjä {nimi} luotu onnistuneesti!\n")
+    return nimi
 
-        elif kysymys_arvo == "ei":
-            #funktio tähän
-else:
-        kys == "ei"
-        usercreateer()
 
-pisteet = 15
-arvonta = [50,55,60,65,70,75,80,85,90,95,100]
-pisteita = random.choice(arvonta)
+def hae_kayttaja(nimi):
+    sql = "SELECT Name, points FROM player WHERE Name=%s"
+    kursori = yhteys.cursor()
+    kursori.execute(sql, (nimi,))
+    tulos = kursori.fetchone()
+    return tulos  # palauttaa (Name, points) tai None
 
-print(" Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
-print(" Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
-print("Tarvitset voittoon", pisteita, "pistemäärän.")
-while True:
-    lentokentta = input(f"Valitse lentokenttä: 1.{lista[0]},2.{lista[1]},3.{lista[2]},4.{lista[3]}5.{lista[4]} ")
-    print("Siirrytään lentokentälle")
-    print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-    oikea_vastaus =  # funktio tähän 
-    if lentokentta == oikea_vastaus:
-        print("Löysit aaveen ja saat 10 pistettä.")
-        pisteet+=10
-        print(f"Pisteet ovat nyt {pisteet}")
-        if pisteet == pisteita:
+
+def nayta_lentokentat():
+    sql = "SELECT name FROM airport ORDER BY RAND() LIMIT 5"
+    kursori = yhteys.cursor()
+    kursori.execute(sql)
+    tulos = kursori.fetchall()
+    lista = [name[0] for name in tulos]
+    for idx, lentokentta in enumerate(lista, start=1):
+        print(f"{idx}. {lentokentta}")
+    print()
+    return lista
+
+
+def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
+    pisteet = aiemmat_pisteet or 15
+    print(pisteet)
+    piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
+    tavoite = random.choice(piste_arvonta)
+    print(tavoite)
+
+    print(
+        " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
+    print(
+        " Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä tippuu nollaan.")
+    print("Tarvitset voittoon", tavoite, "pistemäärän.")
+
+    lentokentat = nayta_lentokentat()
+    oikea_vastaus = random.choice(lentokentat)
+    print(lentokentat)
+    print(oikea_vastaus)
+
+    while True:
+        if pisteet >= tavoite:
             print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
             break
+        try:
+            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
+            print("Siirrytään lentokentälle")
+            print(r"""
+                   __|__
+            --@--@--(_)--@--@--
+                   /   \
+                  /     \
+            """)
+            print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
+            if lentokentat[valinta - 1] == oikea_vastaus:
+                pisteet += 10
+                print(f"Löysit aaveen! Pisteesi: {pisteet}\n")
+                pisteet += palkinto(valinta)
+                lentokentat = nayta_lentokentat()
+                oikea_vastaus = random.choice(lentokentat)
+                print(lentokentat)
+                print(oikea_vastaus)
+                continue
+
+            elif pisteet <= 0:
+                print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+                break
+
+            elif lentokentat[valinta-1] != oikea_vastaus:
+                print("Et löytänyt aavetta ja menetät viisi pistettä.")
+                pisteet -= 5
+                print(f"Pisteesi: {pisteet}")
+
+        except ValueError:
+            print("Syötä numero väliltä 1-5!")
+
+
+# --- Pääohjelma ---
+def main():
+    flag = True
+    aiemmat_pisteet = 0
+    nimi = ""
+    while flag:
+        kys = input("Onko sinulla käyttäjä? (kyllä/ei): ").lower()
+        if kys == "kyllä":
+            nimi = input("Anna käyttäjänimi: ")
+            pelaaja = hae_kayttaja(nimi)
+            print(pelaaja)
+            if pelaaja:
+                aiemmat_pisteet = int(pelaaja[1])
+                print(f"Löytyi aiempi peli!\n"
+                      f"Pelaaja: {pelaaja[0]}\n"
+                      f"Pisteet: {pelaaja[1]}\n"
+                      f"Jatketaan peliä...")
+                flag = False
+            else:
+                print("Käyttäjää ei löydy. Luodaan uusi.")
+                nimi = luo_kayttaja()
+                flag = False
+        elif kys == "ei":
+            nimi = luo_kayttaja()
+            flag = False
         else:
-            continue
-    elif lentokentta != oikea_vastaus:
-        print("Et löytänyt aavetta ja menetät viisi pistettä.")
-        pisteet-=5
-        print(f"Pisteet ovat nyt {pisteet}")
-        if pisteet == 0:
-            print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
-            break
-        else:
-            continue
+            print("Syötä joko kyllä tai ei!")
 
-def maat():
- 
-    sql = f"SELECT name  FROM airport ORDER BY RAND() LIMIT 5"
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    for name in tulos: 
-        lista.append(name[0]) 
+    pelaa_peli(nimi, aiemmat_pisteet)
 
-    for counter , value in enumerate(lista, start=1):
-        print(counter, value)
-def arvonta():
-    
-    real = random.choice(lista)
-    gues=  input("Arvaa lentokenttä: ") 
-    if gues == real:
-         print("Oikein arvattu")
-    else:
-            print("Väärin arvattu")
-            print(f"Oikea vastaus oli {real}")
-    
-    return real
 
-    
+if __name__ == "__main__":
+    main()
