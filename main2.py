@@ -1,5 +1,6 @@
 import mysql.connector
 import random
+from colorist import Color
 
 
 # --- Yhteys tietokantaan ---
@@ -56,7 +57,7 @@ def nayta_lentokentat():
     tulos = kursori.fetchall()
     lista = [name[0] for name in tulos]
     for idx, lentokentta in enumerate(lista, start=1):
-        print(f"{idx}. {lentokentta}")
+        print(f"{Color.RED}{idx}. {lentokentta}{Color.OFF}")
     print()
     return lista
 
@@ -68,11 +69,13 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     tavoite = random.choice(piste_arvonta)
     print(tavoite)
 
-    print(
-        " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
-    print(
-        " Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä tippuu nollaan.")
-    print("Tarvitset voittoon", tavoite, "pistemäärän.")
+    print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
+          f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
+          f"{Color.RED}peli alkaa!{Color.OFF}"
+          )
+
+    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa pistettä.{Color.OFF}")
+    print(f"{Color.CYAN}Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.{Color.OFF}\n")
 
     lentokentat = nayta_lentokentat()
     oikea_vastaus = random.choice(lentokentat)
