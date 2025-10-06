@@ -50,7 +50,7 @@ def hae_kayttaja(nimi):
 
 
 def nayta_lentokentat():
-    sql = "SELECT name FROM airport ORDER BY RAND() LIMIT 5"
+    sql = "SELECT name FROM airport ORDER BY RAND() LIMIT 3"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -113,7 +113,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 print(f"Pisteesi: {pisteet}")
 
         except ValueError:
-            print("Syötä numero väliltä 1-5!")
+            print("Syötä numero väliltä 1-3!")
 
 
 # --- Pääohjelma ---
