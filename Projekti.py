@@ -14,6 +14,14 @@ yhteys = mysql.connector.connect(
 
 # --- Funktiot ---
 
+def palkinto(arvo):
+    pistet=0
+    palkinto = random.randint(1,5)
+    if palkinto == arvo:
+        print("Löysit aarteen saat 5 pistettä!")
+        pistet +=5
+    return pistet
+
 def luo_kayttaja():
     while True:
         nimi = input("Anna käyttäjänimesi (vähintään 3 merkkiä): ")
@@ -77,10 +85,18 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             break
         try:
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
+            print("Siirrytään lentokentälle")
+            print(r"""
+                   __|__
+            --@--@--(_)--@--@--
+                   /   \
+                  /     \
+            """)
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
             if lentokentat[valinta - 1] == oikea_vastaus:
                 pisteet += 10
                 print(f"Löysit aaveen! Pisteesi: {pisteet}\n")
+                pisteet += palkinto(valinta)
                 lentokentat = nayta_lentokentat()
                 oikea_vastaus = random.choice(lentokentat)
                 print(lentokentat)
@@ -88,12 +104,13 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 continue
 
             elif pisteet <= 0:
-                print("Pisteesi tippuivat nollaan. Peli päättyi.\n")
+                print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
                 break
 
             elif lentokentat[valinta-1] != oikea_vastaus:
+                print("Et löytänyt aavetta ja menetät viisi pistettä.")
                 pisteet -= 5
-                print(f"Ei aavetta täällä. Pisteesi: {pisteet}")
+                print(f"Pisteesi: {pisteet}")
 
         except ValueError:
             print("Syötä numero väliltä 1-5!")
