@@ -19,7 +19,7 @@ def create_kayttaja():
 
 
 def hae_kayttaja(arvo):
-    sql = f"select player from user where player = '{arvo}' "
+    sql = f"select name from player where name = '{arvo}' "
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -27,7 +27,7 @@ def hae_kayttaja(arvo):
 
 
 def tiedon_haku(arvo):
-    sql = f"select points from user where player = '{arvo}'"
+    sql = f"select points from player where name = '{arvo}'"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -50,7 +50,7 @@ def main():
 
 def maat():
     lista=[]
-    sql = f"SELECT name  FROM airport ORDER BY RAND() LIMIT 5"
+    sql = f"SELECT name FROM airport ORDER BY RAND() LIMIT 5"
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
@@ -103,9 +103,9 @@ def peli(pelaaja,pistet):
     pisteita = random.choice(arvonta)
     pisteet += pistet
     print(
-        " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
+        " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä, että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
     print(
-        " Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
+        " Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä tippuu nollaan.")
     print("Tarvitset voittoon", pisteita, "pistemäärän.")
     kentat= maat()
 
