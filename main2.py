@@ -1,5 +1,6 @@
 import mysql.connector
 import random
+from colorist import Color
 
 
 # --- Yhteys tietokantaan ---
@@ -48,7 +49,7 @@ def nayta_lentokentat():
     tulos = kursori.fetchall()
     lista = [name[0] for name in tulos]
     for idx, lentokentta in enumerate(lista, start=1):
-        print(f"{idx}. {lentokentta}")
+        print(f"{Color.RED}{idx}. {lentokentta}{Color.OFF}")
     print()
     return lista
 
@@ -60,9 +61,13 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     tavoite = random.choice(piste_arvonta)
     print(tavoite)
 
-    print(f"\nHei {pelaaja}, sinulla on pisteitä: {pisteet}, peli alkaa!")
-    print("Tavoitteesi on saavuttaa", tavoite, "pistettä.")
-    print("Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.\n")
+    print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
+          f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
+          f"{Color.RED}peli alkaa!{Color.OFF}"
+          )
+
+    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa pistettä.{Color.OFF}")
+    print(f"{Color.CYAN}Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.{Color.OFF}\n")
 
     lentokentat = nayta_lentokentat()
     oikea_vastaus = random.choice(lentokentat)
