@@ -51,13 +51,30 @@ def hae_kayttaja(nimi):
 
 
 def nayta_lentokentat():
-    sql = "SELECT name FROM airport ORDER BY RAND() LIMIT 3"
+    sql = """
+            SELECT a.name, a.ident, c.co2_impact
+            FROM airport a 
+            LEFT JOIN airport_co2 c
+            ON a.ident = c.ident
+            ORDER BY RAND()
+            LIMIT 3"""
+
     kursori = yhteys.cursor()
     kursori.execute(sql)
     tulos = kursori.fetchall()
-    lista = [name[0] for name in tulos]
-    for idx, lentokentta in enumerate(lista, start=1):
-        print(f"{Color.RED}{idx}. {lentokentta}{Color.OFF}")
+    lista = []
+    for idx, (name, ident, co2) in enumerate(tulos, start=1):
+        if co2 is None:
+            co2 = 2
+        co2_text = (
+        "🌱 matala" if co2 == 1 else
+        "♻️ keskitaso" if co2 == 2 else
+        "🔥 korkea" if co2 == 3 else
+        "❓ tuntematon"
+        )
+        print(f"{Color.RED}{idx}. {name}{Color.OFF} ({co2_text})")
+        lista.append((name, ident, co2))
+
     print()
     return lista
 
@@ -72,12 +89,13 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
           f"{Color.RED}peli alkaa!{Color.OFF}"
           )
 
-    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa pistettä.{Color.OFF}")
+    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa {tavoite} pistettä.{Color.OFF}")
     print(f"{Color.CYAN}Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.{Color.OFF}\n")
 
     lentokentat = nayta_lentokentat()
     oikea_vastaus = random.choice(lentokentat)
     print()
+
 
     while pisteet > 0 and pisteet < tavoite:
         try:
@@ -85,14 +103,13 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             if valinta < 1 or valinta > len(lentokentat):
                 print(f"Valitse numero listan sisällä! (1-{len(lentokentat)}")
                 continue
-
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
 
             if lentokentat[valinta - 1] == oikea_vastaus:
-                print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
                 pisteet += 10 + palkinto(valinta)
+                print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
                 lentokentat = nayta_lentokentat()
                 oikea_vastaus = random.choice(lentokentat)
 
@@ -101,7 +118,14 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 print("Et löytänyt aavetta ja menetät viisi pistettä.")
                 print(f"Pisteesi: {pisteet}\n")
                 for idx, kentta in enumerate(lentokentat, start=1):
-                    print(f"{Color.RED}{idx}. {kentta}{Color.OFF}")
+                    co2 = kentta[2]
+                    co2_text = (
+                        "🌱 matala" if co2 == 1 else
+                        "♻️ keskitaso" if co2 == 2 else
+                        "🔥 korkea" if co2 == 3 else
+                        "❓ tuntematon"
+                    )
+                    print(f"{Color.RED}{idx}. {kentta[0]} ({co2_text}){Color.OFF}")
                 print("\n")
 
         except ValueError:
@@ -111,7 +135,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
         print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
     elif pisteet >= tavoite:
         print(
-            f"{Color.RED}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
+            f"{Color.CYAN}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
 
 # --- Pääohjelma ---
 def main():
