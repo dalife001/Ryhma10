@@ -1,22 +1,41 @@
 import mysql.connector
 import random
-
+from colorist import Color
+import animated_fly
 
 # --- Yhteys tietokantaan ---
 yhteys = mysql.connector.connect(
     host='localhost',
     port=3306,
-    database='player',
+    database='mkp_db',
     user='root',
-    password='P@ssword',
+    password='root',
     autocommit=True
 )
 
 # --- Funktiot ---
 
+def onko_hiilineutraali(arvo):
+    neutraalit =[ "Oslo Gardermoen","Stockholm Arlanda","Kööpenhamina Kastrup","Amsterdam Schiphol",
+    "Dallas–Fort Worth","San Diego International", "Delhi Indira Gandhi International",
+    "Mumbai Chhatrapati Shivaji Maharaj International" ,"Doha Hamad International","Christchurch  International Airport"]
+
+    if arvo in neutraalit:
+        print(f"{arvo} on hiilineutraali")
+    else:
+        print(f"{arvo} ei ole hiilineutraali")
+
+def tallennus(nimi,pisteet):
+    sql = "UPDATE player SET points = %s WHERE Name = %s"
+    kursori = yhteys.cursor()
+    kursori.execute(sql, (pisteet, nimi))
+    yhteys.commit()
+    print(f"Tallennettu")
+    kursori.close()
+
 def palkinto(arvo):
     pistet=0
-    palkinto = random.randint(1,5)
+    palkinto = random.randint(1,3)
     if palkinto == arvo:
         print("Löysit aarteen saat 5 pistettä!")
         pistet +=5
@@ -37,7 +56,7 @@ def luo_kayttaja():
     sql = "INSERT INTO player (Name, points, Guessed, info) VALUES (%s, %s, %s, %s)"
     kursori = yhteys.cursor()
     kursori.execute(sql, (nimi, 15, 0, info))
-    print(f"Käyttäjä {nimi} luotu onnistuneesti!\n")
+    print(f"\nKäyttäjä {nimi} luotu onnistuneesti!\n")
     return nimi
 
 
@@ -56,65 +75,61 @@ def nayta_lentokentat():
     tulos = kursori.fetchall()
     lista = [name[0] for name in tulos]
     for idx, lentokentta in enumerate(lista, start=1):
-        print(f"{idx}. {lentokentta}")
+        print(f"{Color.RED}{idx}. {lentokentta}{Color.OFF}")
     print()
     return lista
 
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     pisteet = aiemmat_pisteet or 15
-    print(pisteet)
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
-    print(tavoite)
 
-    print(
-        " Olet aloittelija aaveenmetsästäjä. \n Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti. \n Niinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
-    print(
-        " Aina kun löydät aaveen, saat 10 pistettä.Jos kentällä ei ole aavetta, menetät 5 pistettä. \n Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä tippuu nollaan.")
-    print("Tarvitset voittoon", tavoite, "pistemäärän.")
+    print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
+          f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
+          f"{Color.RED}peli alkaa!{Color.OFF}"
+          )
+
+    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa pistettä.{Color.OFF}")
+    print(f"{Color.CYAN}Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.{Color.OFF}\n")
 
     lentokentat = nayta_lentokentat()
     oikea_vastaus = random.choice(lentokentat)
-    print(lentokentat)
-    print(oikea_vastaus)
+    print()
 
-    while True:
-        if pisteet >= tavoite:
-            print("Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.")
-            break
+    while pisteet > 0 and pisteet < tavoite:
         try:
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
-            print("Siirrytään lentokentälle")
-            print(r"""
-                   __|__
-            --@--@--(_)--@--@--
-                   /   \
-                  /     \
-            """)
-            print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-            if lentokentat[valinta - 1] == oikea_vastaus:
-                pisteet += 10
-                print(f"Löysit aaveen! Pisteesi: {pisteet}\n")
-                pisteet += palkinto(valinta)
-                lentokentat = nayta_lentokentat()
-                oikea_vastaus = random.choice(lentokentat)
-                print(lentokentat)
-                print(oikea_vastaus)
+            if valinta < 1 or valinta > len(lentokentat):
+                print(f"Valitse numero listan sisällä! (1-{len(lentokentat)}")
                 continue
 
-            elif pisteet <= 0:
-                print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
-                break
+            print("Siirrytään lentokentälle")
+            animated_fly.animate_takeoff()
+            print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
 
-            elif lentokentat[valinta-1] != oikea_vastaus:
-                print("Et löytänyt aavetta ja menetät viisi pistettä.")
+            if lentokentat[valinta - 1] == oikea_vastaus:
+                print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
+                pisteet += 10 + palkinto(valinta)
+                lentokentat = nayta_lentokentat()
+                oikea_vastaus = random.choice(lentokentat)
+
+            else:
                 pisteet -= 5
-                print(f"Pisteesi: {pisteet}")
+                print("Et löytänyt aavetta ja menetät viisi pistettä.")
+                print(f"Pisteesi: {pisteet}\n")
+                for idx, kentta in enumerate(lentokentat, start=1):
+                    print(f"{Color.RED}{idx}. {kentta}{Color.OFF}")
+                print("\n")
 
         except ValueError:
             print("Syötä numero väliltä 1-3!")
 
+    if pisteet <= 0:
+        print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+    elif pisteet >= tavoite:
+        print(
+            f"{Color.RED}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
 
 # --- Pääohjelma ---
 def main():
@@ -126,10 +141,9 @@ def main():
         if kys == "kyllä":
             nimi = input("Anna käyttäjänimi: ")
             pelaaja = hae_kayttaja(nimi)
-            print(pelaaja)
             if pelaaja:
                 aiemmat_pisteet = int(pelaaja[1])
-                print(f"Löytyi aiempi peli!\n"
+                print(f"\nLöytyi aiempi peli!\n"
                       f"Pelaaja: {pelaaja[0]}\n"
                       f"Pisteet: {pelaaja[1]}\n"
                       f"Jatketaan peliä...")
