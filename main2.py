@@ -127,10 +127,11 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     if pisteet <= 0:
         print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+        tallennus(pelaaja, pisteet)
     elif pisteet >= tavoite:
         print(
             f"{Color.RED}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
-
+        tallennus(pelaaja,pisteet)
 # --- Pääohjelma ---
 def main():
     flag = True
