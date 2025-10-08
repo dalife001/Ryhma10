@@ -132,6 +132,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
+            onko_hiilineutraali(lentokentat) #Lisätty
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
             if valinta == 0:
                 print(f"Peli tallennettu. Pisteesi: {pisteet}")
