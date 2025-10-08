@@ -35,12 +35,18 @@ def aarin_vastaus():
         small_pouch()
     else:
         print("You got blinded, u cant  see the ghost next round")
-    
+
+def asciianimater():
+     ## this one animates the heart in the game depending if the user get extra heart or lose one 
+    ##  and  second animates the trap chest   plus if the user opens the chess or not 
+    pass
+
 def  aarin_avaus_kysymys():
     print(chess1)
     print("Hei, onneksi olkoon, löysit aarteen, haluatko avata sen? kyllä/ei")
     vastaus = str(input()).lower()
     if vastaus == "kyllä":
+        asciianimater()
         aarin_vastaus()
     elif vastaus == "ei":
         print("okei, jatketaan matkaa")
@@ -59,8 +65,9 @@ def trap():
     print("You stepped on a trap, you lose 1 heart")
     pisteet -=5
 
+    # this  will take  a heart away from the player  since  each heart is worth 5 points
+
+
 def  climate():
      pass
 
-
-small_pouch()
