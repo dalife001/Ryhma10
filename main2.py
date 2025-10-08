@@ -16,6 +16,17 @@ yhteys = mysql.connector.connect(
 
 # --- Funktiot ---
 
+def onko_hiilineutraali(arvo):
+    neutraalit =[ "Oslo Gardermoen","Stockholm Arlanda","Kööpenhamina Kastrup","Amsterdam Schiphol",
+    "Dallas–Fort Worth","San Diego International", "Delhi Indira Gandhi International",
+    "Mumbai Chhatrapati Shivaji Maharaj International" ,"Doha Hamad International","Christchurch  International Airport"]
+
+    if arvo in neutraalit:
+        print(f"{arvo} on hiilineutraali")
+    else:
+        print(f"{arvo} ei ole hiilineutraali")
+
+
 def palkinto(arvo):
     pistet=0
     palkinto = random.randint(1,3)
