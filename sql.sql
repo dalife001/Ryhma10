@@ -97,3 +97,11 @@ COLLATE='utf8mb4_uca1400_ai_ci'
 ENGINE=InnoDB
 
 ;
+CREATE TABLE `airport_co2` (
+  `ident` VARCHAR(10) NOT NULL,
+  `co2` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_uca1400_ai_ci',
+  `co2_impact` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_uca1400_ai_ci',
+  FOREIGN KEY (`ident`) REFERENCES `airport` (`ident`)
+)
+COLLATE='utf8mb4_uca1400_ai_ci'
+ENGINE=InnoDB;

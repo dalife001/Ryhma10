@@ -1,5 +1,9 @@
 import time
 import math
+<<<<<<< Updated upstream
+=======
+import os
+>>>>>>> Stashed changes
 
 PLANE = [
     r"       __|__       ",
@@ -7,8 +11,13 @@ PLANE = [
 ]
 
 def clear_screen_safe():
+<<<<<<< Updated upstream
     """Tyhjentää näytön tulostamalla paljon tyhjää."""
     print("\n" * 100)
+=======
+
+    os.system('cls')
+>>>>>>> Stashed changes
 
 def draw_frame(x_offset, sky_padding):
     pad_x = " " * x_offset
