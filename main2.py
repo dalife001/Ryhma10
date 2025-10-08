@@ -1,3 +1,4 @@
+import emoji
 import mysql.connector
 import random
 from colorist import Color
@@ -87,7 +88,9 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
     kursori.execute(query, (pisteet, pelaajan_nimi))
     print(f"{Color.CYAN}Pelaajan: {pelaajan_nimi} pisteet: {pisteet} tallennettu.{Color.OFF}")
 
+
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
+
     pisteet = aiemmat_pisteet or 15
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
@@ -117,9 +120,12 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
-            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa): "))
+            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
             if valinta == 0:
                 tallenna_peli(pelaaja, pisteet)
+                break
+            if valinta == 9:
+                print("Bye! \u2764")
                 break
             if valinta < 0 or valinta > len(lentokentat):
                 print(f"Valitse numero väliltä (1-{len(lentokentat)})")
@@ -128,9 +134,16 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-
+            co2 = lentokentat[valinta - 1][2]
             if lentokentat[valinta - 1] == oikea_vastaus:
-                pisteet += 10 + palkinto(valinta)
+                bonus = 10 + palkinto(valinta)
+                if co2 == 1:
+                    bonus += 2 # ympäristöystävällisestä kentästä pieni lisäpiste
+                    print(f"Sait 2 lisäpistettä ympäristöystävällisestä kentästä! \u2705" )
+                elif co2 == 3:
+                    bonus -= 2 # korkean päästön kenttä pienentää palkintoa
+                    print(f"Menetit 2 pistettä korkean päästön kentän vuoksi! \u2757")
+                pisteet += bonus
                 print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
                 lentokentat = nayta_lentokentat()
                 oikea_vastaus = random.choice(lentokentat)
@@ -151,8 +164,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 print("\n")
 
         except ValueError:
-            print("Syötä numero väliltä 1-3!")
-
+            print(f"{Color.RED}Virhe! Syötä numero väliltä 1–3.{Color.OFF}")
     if pisteet <= 0:
         print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
     elif pisteet >= tavoite:
@@ -166,7 +178,7 @@ def main():
     aiemmat_pisteet = 0
     nimi = ""
     while flag:
-        kys = input("Onko sinulla käyttäjä? (kyllä/ei): ").lower()
+        kys = input(f"Onko sinulla käyttäjä? ({Color.RED}kyllä{Color.OFF}/{Color.CYAN}ei{Color.OFF}): ").lower()
         if kys in ("kyllä", "k", "kyl", "kyll", "ky"):
             nimi = input("Anna käyttäjänimi: ")
             pelaaja = hae_kayttaja(nimi)
