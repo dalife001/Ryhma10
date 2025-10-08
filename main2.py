@@ -117,13 +117,14 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
-            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallenna ja lopeta): "))
+            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa): "))
             if valinta == 0:
                 tallenna_peli(pelaaja, pisteet)
                 break
             if valinta < 0 or valinta > len(lentokentat):
                 print(f"Valitse numero väliltä (1-{len(lentokentat)})")
                 continue
+
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
@@ -166,7 +167,7 @@ def main():
     nimi = ""
     while flag:
         kys = input("Onko sinulla käyttäjä? (kyllä/ei): ").lower()
-        if kys == "kyllä":
+        if kys in ("kyllä", "k", "kyl", "kyll", "ky"):
             nimi = input("Anna käyttäjänimi: ")
             pelaaja = hae_kayttaja(nimi)
             if pelaaja:
