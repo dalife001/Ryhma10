@@ -74,10 +74,18 @@ def nayta_lentokentat():
         )
         print(f"{Color.RED}{idx}. {name}{Color.OFF} ({co2_text})")
         lista.append((name, ident, co2))
-
     print()
     return lista
 
+def tallenna_peli(pelaajan_nimi: str, pisteet: int):
+    query = """
+            UPDATE player
+            SET Points = %s
+            WHERE Name = %s
+            """
+    kursori = yhteys.cursor()
+    kursori.execute(query, (pisteet, pelaajan_nimi))
+    print(f"{Color.CYAN}Pelaajan: {pelaajan_nimi} pisteet: {pisteet} tallennettu.{Color.OFF}")
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     pisteet = aiemmat_pisteet or 15
@@ -109,8 +117,11 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
-            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
-            if valinta < 1 or valinta > len(lentokentat):
+            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallenna ja lopeta): "))
+            if valinta == 0:
+                tallenna_peli(pelaaja, pisteet)
+                break
+            if valinta < 0 or valinta > len(lentokentat):
                 print(f"Valitse numero väliltä (1-{len(lentokentat)})")
                 continue
             print("Siirrytään lentokentälle")
@@ -147,7 +158,8 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
         print(
             f"{Color.CYAN}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
 
-# --- Pääohjelma ---
+
+# Pääohjelma
 def main():
     flag = True
     aiemmat_pisteet = 0
