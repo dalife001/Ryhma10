@@ -64,16 +64,17 @@ def nayta_lentokentat():
     kursori.execute(sql)
     tulos = kursori.fetchall()
     lista = []
+
     for idx, (name, ident, co2) in enumerate(tulos, start=1):
         if co2 is None:
-            co2 = 2
+            co2 = 2 # jos kentällä ei ole CO₂-arvoa, oletetaan keskitaso (2)
         co2_text = (
         "🌱 matala" if co2 == 1 else
         "♻️ keskitaso" if co2 == 2 else
         "🔥 korkea" if co2 == 3 else
         "❓ tuntematon"
         )
-        print(f"{Color.RED}{idx}. {name}{Color.OFF} ({co2_text})")
+        print(f"{Color.RED}{idx}. {name}{Color.OFF} (Päästöt: {co2_text})")
         lista.append((name, ident, co2))
     print()
     return lista
@@ -122,6 +123,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
         try:
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
             if valinta == 0:
+                print(f"Peli tallennettu. Pisteesi: {pisteet}")
                 tallenna_peli(pelaaja, pisteet)
                 break
             if valinta == 9:
@@ -135,6 +137,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
             co2 = lentokentat[valinta - 1][2]
+
             if lentokentat[valinta - 1] == oikea_vastaus:
                 bonus = 10 + palkinto(valinta)
                 if co2 == 1:
@@ -143,6 +146,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 elif co2 == 3:
                     bonus -= 2 # korkean päästön kenttä pienentää palkintoa
                     print(f"Menetit 2 pistettä korkean päästön kentän vuoksi! \u2757")
+
                 pisteet += bonus
                 print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
                 lentokentat = nayta_lentokentat()
@@ -152,21 +156,16 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 pisteet -= 5
                 print(f"{Color.RED}Et{Color.OFF} löytänyt aavetta ja menetät viisi pistettä.")
                 print(f"Pisteesi: {pisteet}\n")
-                for idx, kentta in enumerate(lentokentat, start=1):
-                    co2 = kentta[2]
-                    co2_text = (
-                        "🌱 matala" if co2 == 1 else
-                        "♻️ keskitaso" if co2 == 2 else
-                        "🔥 korkea" if co2 == 3 else
-                        "❓ tuntematon"
-                    )
-                    print(f"{Color.RED}{idx}. {kentta[0]} ({co2_text}){Color.OFF}")
+                lentokentat = nayta_lentokentat()
+                oikea_vastaus = random.choice(lentokentat)
                 print("\n")
 
         except ValueError:
             print(f"{Color.RED}Virhe! Syötä numero väliltä 1–3.{Color.OFF}")
+
     if pisteet <= 0:
         print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
+
     elif pisteet >= tavoite:
         print(
             f"{Color.CYAN}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
