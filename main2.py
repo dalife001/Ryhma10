@@ -84,6 +84,16 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
 
+    print(
+        f"Olet aloittelija aaveenmetsästäjä. \n"
+        f"Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n"
+        f"Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti."
+        f"\nNiinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
+    print(
+        f"Aina kun löydät aaveen, saat 10 pistettä."
+        f" Jos kentällä ei ole aavetta, menetät 5 pistettä. \n"
+        f"Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
+
     print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
           f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
           f"{Color.RED}peli alkaa!{Color.OFF}"
@@ -101,7 +111,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
         try:
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)}: "))
             if valinta < 1 or valinta > len(lentokentat):
-                print(f"Valitse numero listan sisällä! (1-{len(lentokentat)}")
+                print(f"Valitse numero väliltä (1-{len(lentokentat)})")
                 continue
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
@@ -115,7 +125,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
             else:
                 pisteet -= 5
-                print("Et löytänyt aavetta ja menetät viisi pistettä.")
+                print(f"{Color.RED}Et{Color.OFF} löytänyt aavetta ja menetät viisi pistettä.")
                 print(f"Pisteesi: {pisteet}\n")
                 for idx, kentta in enumerate(lentokentat, start=1):
                     co2 = kentta[2]
@@ -152,7 +162,7 @@ def main():
                 print(f"\nLöytyi aiempi peli!\n"
                       f"Pelaaja: {pelaaja[0]}\n"
                       f"Pisteet: {pelaaja[1]}\n"
-                      f"Jatketaan peliä...")
+                      f"Jatketaan peliä...\n")
                 flag = False
             else:
                 print("Käyttäjää ei löydy. Luodaan uusi.")
