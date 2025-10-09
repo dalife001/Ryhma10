@@ -102,7 +102,7 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
 
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
-    pisteet = aiemmat_pisteet or 15
+    pisteet = aiemmat_pisteet
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
 
