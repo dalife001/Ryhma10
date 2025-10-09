@@ -40,6 +40,7 @@ def palkinto(arvo):
         pistet +=5
     return pistet
 
+
 def luo_kayttaja():
     while True:
         nimi = input("Anna käyttäjänimesi (vähintään 3 merkkiä): ")
@@ -98,6 +99,7 @@ def nayta_lentokentat():
     print()
     return lista
 
+
 def tallenna_peli(pelaajan_nimi: str, pisteet: int):
     query = """
             UPDATE player
@@ -108,39 +110,6 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
     kursori.execute(query, (pisteet, pelaajan_nimi))
     print(f"{Color.CYAN}Pelaajan: {pelaajan_nimi} pisteet: {pisteet} tallennettu.{Color.OFF}")
 
-
-#def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
-
-    #pisteet = aiemmat_pisteet or 15
-
-
-"""def aarin_vastaus():
-    
-    treasure = random.randint(1)
-   
-    if treasure == 1:
-        print("Hei,onneksi olkoon, löysit  Easter eggs")
-    else:
-        print("You Found a Empty chest, better luck next time")
-        return 0
-
-
-def aarin_avaus_kysymys():
-    
-    chess1()
-    print("Hei, onneksi olkoon, löysit aarteen, haluatko avata sen? kyllä/ei")
-    vastaus = str(input()).lower()
-    if vastaus == "kyllä":
-        openchess1()
-        return aarin_vastaus()
-    elif vastaus == "ei":
-        print("okei, jatketaan matkaa")
-        os.system('cls')
-        return 0
-    else:
-        print("Vastaa vain kyllä tai ei")
-        return 0"""
-    
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
@@ -236,7 +205,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     elif pisteet >= tavoite:
         print(
             f"{Color.CYAN}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
-
 
 # Pääohjelma
 
