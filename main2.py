@@ -13,8 +13,8 @@ yhteys = mysql.connector.connect(
     host='localhost',
     port=3306,
     user='root',
-    database='ams',
-    password='2004',
+    database='mkp_db',
+    password='P@ssword',
     autocommit=True
 )
 
@@ -89,7 +89,7 @@ def nayta_lentokentat():
         "🔥 korkea" if co2 == 3 else
         "❓ tuntematon"
         )
-        print(f"{Color.RED}{idx}. {name}{Color.OFF} (Päästöt: {co2_text})")
+        print(f"{Color.RED}{idx}. {name}{Color.OFF} {Color.GREEN}(Päästöt: {co2_text}){Color.OFF}")
         lista.append((name, ident, co2))
     print()
     return lista
@@ -144,14 +144,19 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     tavoite = random.choice(piste_arvonta)
 
     print(
+        f"{Color.CYAN}"
         f"Olet aloittelija aaveenmetsästäjä. \n"
         f"Huomasit eräänä päivänä,että järjestö johon kuulut järjestää seminaarin johon haluaisit osallistua. \n"
         f"Suruksesi huomaat, että pääsyvaatimuksena on, että alalta pitää olla jo kokemusta saadakseen siitä kaiken irti."
-        f"\nNiinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. ")
+        f"\nNiinpä päätät alkaa metsästämään aaveita erottuaksesi joukosta, ja saadaksesi kerrottavaa seminaariin. "
+        f"{Color.OFF}")
+
     print(
+        f"{Color.CYAN}"
         f"Aina kun löydät aaveen, saat 10 pistettä."
         f" Jos kentällä ei ole aavetta, menetät 5 pistettä. \n"
-        f"Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
+        f"Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan."
+        f"{Color.OFF}")
 
     if not pisteet or pisteet <= 0:
         print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
@@ -175,7 +180,9 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     while pisteet > 0 and pisteet < tavoite:
         try:
             aari = random.randint(1,15)
-            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
+            valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} \n"
+                                f"0 = tallenna ja lopeta\n"
+                                f"9 = lopeta ilman tallennusta: "))
             if valinta == 0:
                 print(f"Peli tallennettu. Pisteesi: {pisteet}")
                 tallenna_peli(pelaaja, pisteet)
@@ -203,9 +210,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 elif co2 == 3:
                     bonus -= 2 # korkean päästön kenttä pienentää palkintoa
                     print(f"Menetit 2 pistettä korkean päästön kentän vuoksi! \u2757")
-
-               
-                  
 
                 pisteet += bonus
                 print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
@@ -254,7 +258,7 @@ def main():
                 nimi = luo_kayttaja()
                 aiemmat_pisteet = 15  
                 flag = False
-        elif kys == "ei":
+        elif kys in ("ei", "e","eip"):
             nimi = luo_kayttaja()
             aiemmat_pisteet = 15 
             flag = False
