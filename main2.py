@@ -10,7 +10,7 @@ yhteys = mysql.connector.connect(
     port=3306,
     database='mkp_db',
     user='root',
-    password='root',
+    password='P@ssword',
     autocommit=True
 )
 
@@ -102,7 +102,6 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
 
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
-
     pisteet = aiemmat_pisteet or 15
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
@@ -129,10 +128,10 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     oikea_vastaus = random.choice(lentokentat)
     print()
 
-
+    yritykset = 0
     while pisteet > 0 and pisteet < tavoite:
         try:
-            onko_hiilineutraali(lentokentat) #Lisätty
+            #onko_hiilineutraali(lentokentat) #Lisätty
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
             if valinta == 0:
                 print(f"Peli tallennettu. Pisteesi: {pisteet}")
@@ -151,6 +150,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             co2 = lentokentat[valinta - 1][2]
 
             if lentokentat[valinta - 1] == oikea_vastaus:
+                yritykset = 0
                 bonus = 10 + palkinto(valinta)
                 if co2 == 1:
                     bonus += 2 # ympäristöystävällisestä kentästä pieni lisäpiste
@@ -165,12 +165,25 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 oikea_vastaus = random.choice(lentokentat)
 
             else:
+                yritykset += 1
                 pisteet -= 5
                 print(f"{Color.RED}Et{Color.OFF} löytänyt aavetta ja menetät viisi pistettä.")
                 print(f"Pisteesi: {pisteet}\n")
-                lentokentat = nayta_lentokentat()
-                oikea_vastaus = random.choice(lentokentat)
-                print("\n")
+                if yritykset >= 3:
+                    print(f"{Color.YELLOW}Olet yrittänyt kolme kertaa. Lentokentät vaihtuvat!{Color.OFF}\n")
+                    lentokentat = nayta_lentokentat()  # tämä arpoo uudet ja TULOSTAA ne
+                    oikea_vastaus = random.choice(lentokentat)
+                    yritykset = 0
+                else:
+                    for i, (nimi, ident, co2) in enumerate(lentokentat, start=1):
+                        co2_text = (
+                            "🌱 matala" if co2 == 1 else
+                            "♻️ keskitaso" if co2 == 2 else
+                            "🔥 korkea" if co2 == 3 else
+                            "❓ tuntematon"
+                        )
+                        print(f"{Color.RED}{i}. {nimi}{Color.OFF} (Päästöt: {co2_text})")
+                    print()
 
         except ValueError:
             print(f"{Color.RED}Virhe! Syötä numero väliltä 1–3.{Color.OFF}")
@@ -196,8 +209,8 @@ def main():
             if pelaaja:
                 aiemmat_pisteet = int(pelaaja[1])
                 print(f"\nLöytyi aiempi peli!\n"
-                      f"Pelaaja: {pelaaja[0]}\n"
-                      f"Pisteet: {pelaaja[1]}\n"
+                      f"Pelaaja: {Color.RED}{pelaaja[0]}{Color.OFF}\n"
+                      f"Pisteet: {Color.RED}{pelaaja[1]}{Color.OFF}\n"
                       f"Jatketaan peliä...\n")
                 flag = False
             else:
