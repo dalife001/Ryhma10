@@ -7,29 +7,24 @@ PLANE = [
 ]
 
 def clear_screen_safe():
-    """Tyhjentää näytön tulostamalla paljon tyhjää."""
     print("\n" * 100)
 
 def draw_frame(x_offset, sky_padding):
     pad_x = " " * x_offset
     plane = "\n".join(pad_x + line for line in PLANE)
-    # lisätään "taivasta" koneen alle -> näyttää siltä että kone on korkealla
     sky = "\n" * sky_padding
     return plane + sky
 
 def animate_takeoff(fps=20):
-    width = 35      # lentomatka
-    sky_max = 0     # alkuperäinen korkeus (maata lähellä)
-    sky_min = 15    # paljon taivasta koneen alle -> näyttää korkeammalta
+    width = 35
+    sky_max = 0
+    sky_min = 15
 
     try:
         for x in range(width):
-            # eteneminen 0..1
             progress = x / width
-            # mitä pidemmälle mennään, sitä enemmän "taivasta" koneen alle
             sky_padding = int(sky_max + progress * (sky_min - sky_max))
 
-            # pieni aaltoiluefekti lisäksi
             wave = int(1.5 * math.sin(x * 0.3))
             sky_padding += wave
 

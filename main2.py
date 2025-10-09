@@ -105,10 +105,12 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
     print(f"{Color.CYAN}Pelaajan: {pelaajan_nimi} pisteet: {pisteet} tallennettu.{Color.OFF}")
 
 
-def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
+#def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
-    pisteet = aiemmat_pisteet or 15
-def aarin_vastaus():
+    #pisteet = aiemmat_pisteet or 15
+
+
+"""def aarin_vastaus():
     
     treasure = random.randint(1)
    
@@ -133,11 +135,12 @@ def aarin_avaus_kysymys():
         return 0
     else:
         print("Vastaa vain kyllä tai ei")
-        return 0
+        return 0"""
     
 
-
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
+
+
 
     pisteet = aiemmat_pisteet 
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
@@ -179,7 +182,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
-            aari = random.randint(1,15)
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} \n"
                                 f"0 = tallenna ja lopeta\n"
                                 f"9 = lopeta ilman tallennusta: "))
@@ -188,7 +190,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 tallenna_peli(pelaaja, pisteet)
                 break
             if valinta == 9:
-                tallenna_peli(pelaaja,pisteet)
                 print("Bye! \u2764")
                 break
             if valinta < 0 or valinta > len(lentokentat):
@@ -198,8 +199,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-            if aari == 2:
-                    aarin_avaus_kysymys()     
             co2 = lentokentat[valinta - 1][2]
 
             if lentokentat[valinta - 1] == oikea_vastaus:
