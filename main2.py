@@ -1,4 +1,5 @@
 import emoji
+import logo
 import mysql.connector
 import random
 from colorist import Color
@@ -240,6 +241,7 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 # Pääohjelma
 
 def main():
+    print(logo.logo)
     flag = True
     aiemmat_pisteet = 0
     nimi = ""
