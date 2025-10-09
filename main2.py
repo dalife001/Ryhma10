@@ -83,6 +83,8 @@ def nayta_lentokentat():
     for idx, (name, ident, co2) in enumerate(tulos, start=1):
         if co2 is None:
             co2 = 2 # jos kentällä ei ole CO₂-arvoa, oletetaan keskitaso (2)
+        else:
+            co2 = int(co2)
         co2_text = (
         "🌱 matala" if co2 == 1 else
         "♻️ keskitaso" if co2 == 2 else
@@ -91,6 +93,7 @@ def nayta_lentokentat():
         )
         print(f"{Color.RED}{idx}. {name}{Color.OFF} {Color.GREEN}(Päästöt: {co2_text}){Color.OFF}")
         lista.append((name, ident, co2))
+
     print()
     return lista
 
@@ -140,8 +143,6 @@ def aarin_avaus_kysymys():
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
-
-
     pisteet = aiemmat_pisteet 
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
@@ -179,7 +180,6 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
     oikea_vastaus = random.choice(lentokentat)
     print()
 
-
     while pisteet > 0 and pisteet < tavoite:
         try:
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} \n"
@@ -206,7 +206,10 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 if co2 == 1:
                     bonus += 2 # ympäristöystävällisestä kentästä pieni lisäpiste
                     print(f"Sait 2 lisäpistettä ympäristöystävällisestä kentästä! \u2705" )
-                elif co2 == 3:
+                elif co2 == 2:
+                    bonus += 1
+                    print(f"{Color.GREEN}Kentän päästöt ovat keskitasoa, saat 1 pisteen lisäpisteen.{Color.OFF} ♻️")
+                else:
                     bonus -= 2 # korkean päästön kenttä pienentää palkintoa
                     print(f"Menetit 2 pistettä korkean päästön kentän vuoksi! \u2757")
 
