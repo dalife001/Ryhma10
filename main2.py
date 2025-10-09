@@ -3,27 +3,18 @@ import mysql.connector
 import random
 from colorist import Color
 import animated_fly
-<<<<<<< Updated upstream
-=======
 from other import aarin_avaus_kysymys
 import os 
 from art import chess1  
 from art import openchess1
->>>>>>> Stashed changes
 
 # --- Yhteys tietokantaan ---
 yhteys = mysql.connector.connect(
     host='localhost',
     port=3306,
-<<<<<<< Updated upstream
-    database='mkp_db',
     user='root',
-    password='root',
-=======
     database='ams',
-    user='root',
     password='2004',
->>>>>>> Stashed changes
     autocommit=True
 )
 
@@ -113,12 +104,10 @@ def tallenna_peli(pelaajan_nimi: str, pisteet: int):
     kursori.execute(query, (pisteet, pelaajan_nimi))
     print(f"{Color.CYAN}Pelaajan: {pelaajan_nimi} pisteet: {pisteet} tallennettu.{Color.OFF}")
 
-<<<<<<< Updated upstream
 
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     pisteet = aiemmat_pisteet or 15
-=======
 def aarin_vastaus():
     
     treasure = random.randint(1)
@@ -151,7 +140,6 @@ def aarin_avaus_kysymys():
 def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     pisteet = aiemmat_pisteet 
->>>>>>> Stashed changes
     piste_arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     tavoite = random.choice(piste_arvonta)
 
@@ -165,11 +153,16 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
         f" Jos kentällä ei ole aavetta, menetät 5 pistettä. \n"
         f"Peli päättyy joko silloin, kun saavutat halutun pistemäärän, tai pistemäärä rippuu nollaan.")
 
-<<<<<<< Updated upstream
-    print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
-          f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
-          f"{Color.RED}peli alkaa!{Color.OFF}"
-          )
+    if not pisteet or pisteet <= 0:
+        print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
+              f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
+              f"{Color.RED}Peli ei voi alkaa{Color.OFF}")
+        tallenna_peli(pelaaja, pisteet)
+        return
+    else:
+        print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
+              f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
+              f"{Color.RED}peli alkaa!{Color.OFF}")
 
     print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa {tavoite} pistettä.{Color.OFF}")
     print(f"{Color.CYAN}Saat 10 pistettä löydettyäsi aaveen, menetät 5 pistettä jos et löydä.{Color.OFF}\n")
@@ -181,35 +174,14 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     while pisteet > 0 and pisteet < tavoite:
         try:
-            onko_hiilineutraali(lentokentat) #Lisätty
-=======
-    if pisteet > 0:
-        print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
-              f"{Color.YELLOW}sinulla on pisteitä: {pisteet},{Color.OFF} "
-              f"{Color.RED}peli alkaa!{Color.OFF}")
-    else:
-        print(f"\n{Color.RED}Hei {pelaaja}{Color.OFF}, "
-              f"{Color.YELLOW}sinulla on pisteitä: {pisteet}{Color.OFF}"
-              f"{Color.YELLOW}Peli loppuu{Color.OFF}")
-              
-
-    print(f"{Color.MAGENTA}Tavoitteesi on saavuttaa {tavoite} pistettä.{Color.OFF}")
-
-    lentokentat = nayta_lentokentat()
-    oikea_vastaus = random.choice(lentokentat)
-
-
-    while pisteet > 0 and pisteet < tavoite:
-        
-        try:
             aari = random.randint(1,15)
->>>>>>> Stashed changes
             valinta = int(input(f"Valitse lentokenttä 1-{len(lentokentat)} (0 tallentaa ja lopettaa, 9 lopettaa ilman tallennusta): "))
             if valinta == 0:
                 print(f"Peli tallennettu. Pisteesi: {pisteet}")
                 tallenna_peli(pelaaja, pisteet)
                 break
             if valinta == 9:
+                tallenna_peli(pelaaja,pisteet)
                 print("Bye! \u2764")
                 break
             if valinta < 0 or valinta > len(lentokentat):
@@ -219,11 +191,8 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
             print("Siirrytään lentokentälle")
             animated_fly.animate_takeoff()
             print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
-<<<<<<< Updated upstream
-=======
             if aari == 2:
                     aarin_avaus_kysymys()     
->>>>>>> Stashed changes
             co2 = lentokentat[valinta - 1][2]
 
             if lentokentat[valinta - 1] == oikea_vastaus:
@@ -234,11 +203,9 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
                 elif co2 == 3:
                     bonus -= 2 # korkean päästön kenttä pienentää palkintoa
                     print(f"Menetit 2 pistettä korkean päästön kentän vuoksi! \u2757")
-<<<<<<< Updated upstream
-=======
+
                
-                    
->>>>>>> Stashed changes
+                  
 
                 pisteet += bonus
                 print(f"{Color.CYAN}Löysit aaveen! Pisteesi: {pisteet}{Color.OFF}\n")
@@ -258,32 +225,21 @@ def pelaa_peli(pelaaja: str, aiemmat_pisteet: int):
 
     if pisteet <= 0:
         print("Pisteesi tippuivat nollaan, ja peli päättyi. Parempi onni seuraavalla kerralla.")
-<<<<<<< Updated upstream
-=======
         tallenna_peli(pelaaja, pisteet)
->>>>>>> Stashed changes
-
     elif pisteet >= tavoite:
         print(
             f"{Color.CYAN}Hyvää työtä. Olet kerännyt nyt tarpeeksi kokemusta voidaksesi osallistua seminaariin.{Color.OFF}")
 
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 # Pääohjelma
+
 def main():
     flag = True
     aiemmat_pisteet = 0
     nimi = ""
     while flag:
         kys = input(f"Onko sinulla käyttäjä? ({Color.RED}kyllä{Color.OFF}/{Color.CYAN}ei{Color.OFF}): ").lower()
-<<<<<<< Updated upstream
         if kys in ("kyllä", "k", "kyl", "kyll", "ky"):
-=======
-        if kys == "kyllä":
->>>>>>> Stashed changes
             nimi = input("Anna käyttäjänimi: ")
             pelaaja = hae_kayttaja(nimi)
             if pelaaja:
@@ -296,9 +252,11 @@ def main():
             else:
                 print("Käyttäjää ei löydy. Luodaan uusi.")
                 nimi = luo_kayttaja()
+                aiemmat_pisteet = 15  
                 flag = False
         elif kys == "ei":
             nimi = luo_kayttaja()
+            aiemmat_pisteet = 15 
             flag = False
         else:
             print("Syötä joko kyllä tai ei!")

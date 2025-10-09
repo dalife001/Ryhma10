@@ -75,13 +75,19 @@ def main():
 def maat():
     lista=[]
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     sql = f"SELECT name  FROM airport ORDER BY RAND() LIMIT 5"
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
     sql = f"SELECT name  FROM airport ORDER BY RAND() LIMIT 5"
 =======
     sql = f"SELECT name FROM airport ORDER BY RAND() LIMIT 3"
 >>>>>>> 39318823f66fcae3873ca7dacec85e4ffc3a9b36
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     kursori = yhteys.cursor()
     kursori.execute(sql)
@@ -138,11 +144,17 @@ def kysy():
 def peli(pelaaja,pisteet=0):
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
 def peli(pelaaja:str,pistet:int):
     pisteet = 0
 >>>>>>> 39318823f66fcae3873ca7dacec85e4ffc3a9b36
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     arvonta = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
     pisteita = random.choice(arvonta)
@@ -156,6 +168,10 @@ def peli(pelaaja:str,pistet:int):
 
     while True:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> Stashed changes
 =======
 <<<<<<< HEAD
 >>>>>>> Stashed changes
@@ -164,7 +180,10 @@ def peli(pelaaja:str,pistet:int):
         print("Saavuit lentokentälle, ja aloitat tutkimuksesi.")
         oikea_vastaus = random.choice(kentat)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 =======
         onko_hiilineutraali(kentat)
         lentokentta = int(input(f"Valitse lentokenttä: 1.{kentat[0]},2.{kentat[1]},3.{kentat[2]}: "))
@@ -173,6 +192,9 @@ def peli(pelaaja:str,pistet:int):
         oikea_vastaus = random.randint(1,3)
         palkinto = random.randint(1,3)
 >>>>>>> 39318823f66fcae3873ca7dacec85e4ffc3a9b36
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         kentat.clear()
         kentat= maat()
